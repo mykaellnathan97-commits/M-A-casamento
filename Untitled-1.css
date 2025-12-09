@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mykaell & Amanda - Casamento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --oliva: #556B2F;
+      --oliva-claro: #6f8740;
+      --oliva-bg: #eef2e8;
+      --cinza-texto: #333;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      color: var(--cinza-texto);
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    h1, h2, h3 {
+      font-weight: 600;
+      color: var(--oliva);
+    }
+
+    header {
+      background: var(--oliva);
+      padding: 16px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header a {
+      color: #fff !important;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
+    header a:hover {
+      color: #d9e5c8 !important;
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem !important;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .btn-oliva {
+      background: var(--oliva);
+      color: #fff;
+      border-radius: 8px;
+      padding: 12px 32px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-oliva:hover {
+      background: var(--oliva-claro);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    #contador {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .contador-item {
+      background: var(--oliva);
+      color: white;
+      padding: 20px 24px;
+      border-radius: 12px;
+      min-width: 100px;
+      text-align: center;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(85,107,47,0.2);
+    }
+
+    .contador-item span {
+      font-size: 32px;
+      font-weight: bold;
+      display: block;
+      line-height: 1;
+    }
+
+    .contador-item br { display: none; }
+    .contador-item::after { content: attr(data-label); display: block; font-size: 13px; margin-top: 8px; }
+
+    .secao {
+      padding: 60px 20px;
+    }
+
+    .secao-bg {
+      background: var(--oliva-bg);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    section p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .filtros {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .filtro-btn {
+      background: white;
+      border: 2px solid var(--oliva);
+      color: var(--oliva);
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .filtro-btn:hover,
+    .filtro-btn.ativo {
+      background: var(--oliva);
+      color: white;
+    }
+
+    .grid-produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .card-produto {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .card-produto:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    .card-produto img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-produto-content {
+      padding: 20px;
+    }
+
+    .card-produto h4 {
+      color: var(--oliva);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .card-produto p {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .card-produto-preco {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--oliva);
+      margin-bottom: 15px;
+    }
+
+    .card-produto-categoria {
+      display: inline-block;
+      background: var(--oliva-bg);
+      color: var(--oliva);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    .btn-presentear {
+      width: 100%;
+      background: var(--oliva);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-presentear:hover {
+      background: var(--oliva-claro);
+    }
+
+    .pix-info {
+      background: var(--oliva-bg);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .pix-info h5 {
+      color: var(--oliva);
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: var(--oliva);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    footer a {
+      color: #d9e5c8;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.ativo {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-close:hover {
+      color: var(--oliva);
+    }
+
+    .produto-info {
+      background: var(--oliva-bg);
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .produto-info h4 {
+      margin: 0 0 5px 0;
+      color: var(--oliva);
+    }
+
+    .produto-info p {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--oliva);
+    }
+
+    .opcoes-pagamento {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .btn-pagamento {
+      padding: 16px;
+      border: 2px solid var(--oliva);
+      background: white;
+      color: var(--oliva);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .btn-pagamento:hover {
+      background: var(--oliva);
+      color: white;
+    }
+
+    .btn-pagamento.ativo {
+      background: var(--oliva);
+      color: white;
+    }
+
+    .pagamento-detalhe {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--oliva-bg);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .pagamento-detalhe.ativo {
+      display: block;
+    }
+
+    .qrcode-container {
+      margin: 20px 0;
+      display: none;
+    }
+
+    .qrcode-container.mostrar {
+      display: block;
+    }
+
+    .qrcode-container img {
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+    }
+
+    .pix-chave {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border: 2px dashed var(--oliva);
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .pix-chave.mostrar {
+      display: block;
+    }
+
+    .btn-copiar {
+      margin-top: 10px;
+      background: var(--oliva);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      display: none;
+      width: 100%;
+    }
+
+    .btn-copiar.mostrar {
+      display: block;
+    }
+
+    .btn-mostrar-qr {
+      width: 100%;
+      background: var(--oliva);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .btn-mostrar-qr:hover {
+      background: var(--oliva-claro);
+    }
+
+    .btn-mostrar-qr.oculto {
+      display: none;
+    }
+
+    .btn-mercadopago {
+      width: 100%;
+      background: #009ee3;
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .btn-mercadopago:hover {
+      background: #0077b6;
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 12px 0; }
+      .navbar-brand { font-size: 1.2rem !important; }
+      nav ul { gap: 10px; }
+      header a { font-size: 13px; }
+      #contador { gap: 12px; }
+      .contador-item { min-width: 80px; padding: 14px 16px; }
+      .contador-item span { font-size: 24px; }
+      section h2 { font-size: 1.8rem; }
+      .secao { padding: 40px 15px; }
+      .grid-produtos { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+      .modal-content { padding: 25px; }
+      .opcoes-pagamento { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-brand { font-size: 1rem !important; }
+      nav ul { flex-direction: column; gap: 8px; }
+      #contador { flex-direction: column; gap: 10px; }
+      .contador-item { width: 100%; }
+      section h2 { font-size: 1.5rem; }
+      .btn-oliva { width: 100%; }
+      .grid-produtos { grid-template-columns: 1fr; }
+      .filtros { flex-direction: column; }
+      .filtro-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand" href="/">Mykaell &amp; Amanda</a>
+      <nav>
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#compromisso">Compromisso</a></li>
+          <li><a href="#eventos">Eventos</a></li>
+          <li><a href="#loja">Loja</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="secao secao-bg">
+      <div class="container text-center">
+        <h1>Nosso Casamento</h1>
+        <p class="lead">A contagem para nosso grande dia já começou.</p>
+
+        <div id="contador">
+          <div class="contador-item" data-label="Dias"><span id="dias">0</span></div>
+          <div class="contador-item" data-label="Horas"><span id="horas">0</span></div>
+          <div class="contador-item" data-label="Minutos"><span id="minutos">0</span></div>
+          <div class="contador-item" data-label="Segundos"><span id="segundos">0</span></div>
+        </div>
+
+        <a href="#eventos" class="btn btn-oliva mt-4">Ver eventos</a>
+      </div>
+    </section>
+
+    <section id="sobre" class="secao">
+      <div class="container">
+        <h2 class="text-center">Sobre nós</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-8 text-center">
+            <p>
+              Este espaço foi criado para compartilhar nossa história, nossos momentos e todos
+              os detalhes desse dia inesquecível. Cada pessoa especial que faz parte da nossa
+              vida também faz parte deste capítulo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compromisso" class="secao secao-bg">
+      <div class="container text-center">
+        <h2>Nosso Compromisso</h2>
+        <p style="max-width: 760px; margin: 0 auto;">
+          Cada etapa foi preparada com carinho, respeito e amor.<br>
+          Celebrar este dia significa celebrar tudo que construímos juntos.
+        </p>
+      </div>
+    </section>
+
+    <section id="eventos" class="secao">
+      <div class="container text-center">
+        <h2>Eventos</h2>
+        <p>Acompanhe todos os momentos importantes da nossa celebração.</p>
+        <a href="#" class="btn btn-oliva">Ver eventos</a>
+      </div>
+    </section>
+
+    <section id="loja" class="secao secao-bg">
+      <div class="container">
+        <h2 class="text-center">Loja — Lista de Presentes</h2>
+        <p class="text-center" style="margin-bottom: 30px;">
+          Escolha um presente e ajude a construir nosso futuro juntos!
+        </p>
+
+        <div class="filtros">
+          <button class="filtro-btn ativo" onclick="filtrarProdutos('todos')">Todos</button>
+          <button class="filtro-btn" onclick="filtrarProdutos('construcao')">Construção</button>
+          <button class="filtro-btn" onclick="filtrarProdutos('tradicional')">Tradicional</button>
+          <button class="filtro-btn" onclick="filtrarProdutos('decoracao')">Decoração</button>
+        </div>
+
+        <div class="grid-produtos" id="gridProdutos"></div>
+
+        <div class="pix-info">
+          <h5>💳 Formas de Pagamento</h5>
+          <p>Clique em "Presentear" e escolha sua forma de pagamento: PIX ou Cartão de Crédito!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modalPagamento">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Confirmar Presente</h3>
+        <button class="modal-close" onclick="fecharModal()">✕</button>
+      </div>
+
+      <div class="produto-info">
+        <h4 id="modalNomeProduto">Produto</h4>
+        <p id="modalPrecoProduto">R$ 0,00</p>
+      </div>
+
+      <p style="text-align: center; margin-bottom: 20px;">Escolha a forma de pagamento:</p>
+
+      <div class="opcoes-pagamento">
+        <button class="btn-pagamento" onclick="selecionarPagamento('pix')">
+          💳 PIX
+        </button>
+        <button class="btn-pagamento" onclick="selecionarPagamento('cartao')">
+          💰 Cartão
+        </button>
+      </div>
+
+      <div class="pagamento-detalhe" id="pix-detalhe">
+        <h5 style="color: var(--oliva); margin-bottom: 15px;">Escaneie o QR Code</h5>
+        
+        <div class="qrcode-container" id="qrcodeContainer">
+          <img id="qrcodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020126360014br.gov.bcb.pix0136xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx52040000530398654061234.565802BR5913AMANDA SILVA6009SAO PAULO62410503***63041D3D" alt="QR Code PIX">
+        </div>
+
+        <div class="pix-chave" id="pixChave">
+          amanda.mykaell@email.com
+        </div>
+
+        <button class="btn-copiar" id="btnCopiar" onclick="copiarChavePix()">📋 Copiar Chave PIX</button>
+
+        <button class="btn-mostrar-qr" id="btnMostrarQr" onclick="mostrarQrCode()">
+          Mostrar QR Code
+        </button>
+      </div>
+
+      <div class="pagamento-detalhe" id="cartao-detalhe">
+        <h5 style="color: var(--oliva); margin-bottom: 15px;">Pague com Cartão de Crédito</h5>
+        <p style="margin-bottom: 20px; color: #666;">Você será redirecionado para o Mercado Pago de forma segura.</p>
+        <button class="btn-mercadopago" onclick="irMercadoPago()">
+          Pagar com Mercado Pago
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer id="contato">
+    <p>&copy; 2025 Mykaell &amp; Amanda — Todos os direitos reservados.</p>
+    <p><a href="#">Contato</a> | <a href="#">Privacidade</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const dataCasamento = new Date("2026-01-17T00:00:00").getTime();
+
+    function atualizarContador() {
+      const agora = Date.now();
+      const diff = dataCasamento - agora;
+
+      if (diff <= 0) {
+        document.getElementById("dias").textContent = "0";
+        document.getElementById("horas").textContent = "0";
+        document.getElementById("minutos").textContent = "0";
+        document.getElementById("segundos").textContent = "0";
+        return;
+      }
+
+      document.getElementById("dias").textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+      document.getElementById("horas").textContent = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById("minutos").textContent = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById("segundos").textContent = Math.floor((diff % (1000 * 60)) / 1000);
+    }
+
+    atualizarContador();
+    setInterval(atualizarContador, 1000);
+
+    const produtos = [
+      { id: 1, nome: "Jogo de Panelas", preco: "R$ 280,00", categoria: "tradicional", descricao: "Jogo completo com 5 peças" },
+      { id: 2, nome: "Jogo de Cama", preco: "R$ 150,00", categoria: "tradicional", descricao: "Lençol + colcha premium" },
+      { id: 3, nome: "Liquidificador", preco: "R$ 180,00", categoria: "tradicional", descricao: "Liquidificador 600W" },
+      { id: 4, nome: "Jogo de Banho", preco: "R$ 120,00", categoria: "tradicional", descricao: "Toalhas felpudas (3 peças)" },
+      { id: 5, nome: "Espelho Decorativo", preco: "R$ 200,00", categoria: "decoracao", descricao: "Espelho estilo clássico" },
+      { id: 6, nome: "Quadro de Parede", preco: "R$ 150,00", categoria: "decoracao", descricao: "Moldura elegante 60x80cm" },
+      { id: 7, nome: "Tapete Persa", preco: "R$ 350,00", categoria: "decoracao", descricao: "Tapete 2x3m" },
+      { id: 8, nome: "Luminárias LED", preco: "R$ 100,00", categoria: "decoracao", descricao: "Kit 2 luminárias inteligentes" },
+      { id: 9, nome: "1 Milheiro de Tijolos", preco: "R$ 1.300,00", categoria: "construcao", descricao: "1.000 unidades" },
+      { id: 10, nome: "10 Sacos de Cimento", preco: "R$ 900,00", categoria: "construcao", descricao: "Cimento Portland 50kg" },
+      { id: 11, nome: "Carrada de Areia", preco: "R$ 550,00", categoria: "construcao", descricao: "Areia fina/média" },
+      { id: 12, nome: "Kit Hidráulico", preco: "R$ 400,00", categoria: "construcao", descricao: "Canos, conexões e acessórios" },
+    ];
+
+    let produtoAtual = null;
+
+    function renderizarProdutos(listaFiltrada = produtos) {
+      const grid = document.getElementById('gridProdutos');
+      grid.innerHTML = '';
+
+      listaFiltrada.forEach(p => {
+        const html = `
+          <div class="card-produto" data-categoria="${p.categoria}">
+            <img src="https://via.placeholder.com/280x200?text=${encodeURIComponent(p.nome)}" alt="${p.nome}">
+            <div class="card-produto-content">
+              <div class="card-produto-categoria">${p.categoria.charAt(0).toUpperCase() + p.categoria.slice(1)}</div>
+              <h4>${p.nome}</h4>
+              <p>${p.descricao}</p>
+              <div class="card-produto-preco">${p.preco}</div>
+              <button class="btn-presentear" onclick="abrirModalPagamento(${p.id}, '${p.nome}', '${p.preco}')">
+                🎁 Presentear
+              </button>
+            </div>
+          </div>
+        `;
+        grid.innerHTML += html;
+      });
+    }
+
+    function filtrarProdutos(categoria) {
+      document.querySelectorAll('.filtro-btn').forEach(btn => btn.classList.remove('ativo'));
+      event.target.classList.add('ativo');
+
+      if (categoria === 'todos') {
+        renderizarProdutos(produtos);
+      } else {
+        const filtrados = produtos.filter(p => p.categoria === categoria);
+        renderizarProdutos(filtrados);
+      }
+    }
+
+    function abrirModalPagamento(id, nome, preco) {
+      produtoAtual = { id, nome, preco };
+      document.getElementById('modalNomeProduto').textContent = nome;
+      document.getElementById('modalPrecoProduto').textContent = preco;
+      document.getElementById('modalPagamento').classList.add('ativo');
+      selecionarPagamento('pix');
+    }
+
+    function fecharModal() {
+      document.getElementById('modalPagamento').classList.remove('ativo');
+      document.querySelectorAll('.pagamento-detalhe').forEach(el => el.classList.remove('ativo'));
+      document.querySelectorAll('.btn-pagamento').forEach(btn => btn.classList.remove('ativo'));
+      document.getElementById('qrcodeContainer').classList.remove('mostrar');
+      document.getElementById('pixChave').classList.remove('mostrar');
+      document.getElementById('btnCopiar').classList.remove('mostrar');
+      document.getElementById('btnMostrarQr').classList.remove('oculto');
+    }
+
+    function selecionarPagamento(tipo) {
+      document.querySelectorAll('.btn-pagamento').forEach(btn => btn.classList.remove('ativo'));
+      document.querySelectorAll('.pagamento-detalhe').forEach(el => el.classList.remove('ativo'));
+      event.target.classList.add('ativo');
+
+      if (tipo === 'pix') {
+        document.getElementById('pix-detalhe').classList.add('ativo');
+        document.getElementById('qrcodeContainer').classList.remove('mostrar');
+        document.getElementById('pixChave').classList.remove('mostrar');
+        document.getElementById('btnCopiar').classList.remove('mostrar');
+        document.getElementById('btnMostrarQr').classList.remove('oculto');
+      } else if (tipo === 'cartao') {
+        document.getElementById('cartao-detalhe').classList.add('ativo');
+      }
+    }
+
+    function mostrarQrCode() {
+      document.getElementById('qrcodeContainer').classList.add('mostrar');
+      document.getElementById('pixChave').classList.add('mostrar');
+      document.getElementById('btnCopiar').classList.add('mostrar');
+      document.getElementById('btnMostrarQr').classList.add('oculto');
+    }
+
+    function copiarChavePix() {
+      const chave = document.getElementById('pixChave').textContent;
+      navigator.clipboard.writeText(chave).then(() => {
+        alert('✓ Chave PIX copiada!');
+      });
+    }
+
+    function irMercadoPago() {
+      window.open('http://link.mercadopago.com.br/mapresnetecasamento', '_blank');
+    }
+
+    document.getElementById('modalPagamento').addEventListener('click', function(e) {
+      if (e.target === this) {
+        fecharModal();
+      }
+    });
+
+    renderizarProdutos();
+  </script>
+</body>
+</html>
